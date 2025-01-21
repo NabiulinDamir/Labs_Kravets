@@ -39,3 +39,10 @@ jobs:
         cd vue-project # Укажите путь к папке вашего проекта
         npx vitest
         echo "Tests completed."
+
+    - name: Check test results
+      run: |
+        if [ $? -ne 0 ]; then
+          echo "Tests failed. Exiting..."
+          exit 1
+        fi

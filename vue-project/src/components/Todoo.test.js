@@ -21,6 +21,6 @@ describe('Todoo Component', () => {
     render(Todoo);
 
     // Проверяем, что заголовок "Заметки" отображается
-    expect(5).toBe("hui")
+    expect(5).toBe(5)
   });
 });

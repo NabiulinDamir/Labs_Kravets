@@ -142,7 +142,4 @@ const CreateNote = () => {
 
 }
 
-.addButton{
-    
-}
 </style>

@@ -46,3 +46,13 @@ jobs:
           echo "Tests failed. Exiting..."
           exit 1
         fi
+        
+    - name: Push changes
+      if: success()  
+      run: |
+        echo "Pushing changes..."
+        git config --local user.email "you@example.com"
+        git config --local user.name "Your Name"
+        git add .
+        git commit -m "Your commit message"
+        git push origin main

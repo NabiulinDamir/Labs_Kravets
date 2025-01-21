@@ -24,17 +24,18 @@ jobs:
     - name: Change directory to project folder
       run: |
         echo "Changing directory to project folder..."
-
+        cd vue-project # Укажите путь к папке вашего проекта
 
     - name: Install dependencies
       run: |
-      
         echo "Installing dependencies..."
-        cd vue-project 
-        ls -la # Укажите путь к папке вашего проекта
+        cd vue-project # Укажите путь к папке вашего проекта
+        ls -la
         npm install
 
     - name: Run tests
       run: |
         echo "Running tests..."
+        cd vue-project # Укажите путь к папке вашего проекта
+        npx vitest
         echo "Tests completed."

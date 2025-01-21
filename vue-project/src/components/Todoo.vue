@@ -15,7 +15,7 @@
                         <div class="button" v-if="item.id !== changeMode" @click="changeMode = item.id">Изменить</div>
                         <div class="button" v-else @click="saveChangeNode(item)">Сохранить</div>
 
-                        <div class="button" @click="deleteNote(item)">Удалить </div>
+                        <div class="button" @click="deleteNote(item)">Удалить</div>
                     </div>
                 </div>
             </div>

@@ -24,7 +24,8 @@ jobs:
     - name: Change directory to project folder
       run: |
         echo "Changing directory to project folder..."
-        cd vue-project  # Укажите путь к папке вашего проекта
+        cd vue-project 
+        ls -la # Укажите путь к папке вашего проекта
 
     - name: Install dependencies
       run: |

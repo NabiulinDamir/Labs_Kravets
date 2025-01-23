@@ -12,10 +12,10 @@
                     <div v-if="item.id !== changeMode" class="Text">{{ item.content }}</div>
                     <textarea v-else v-model="item.content" class="TextArea" ></textarea>
                     <div class="button_container">
-                        <div class="button" v-if="item.id !== changeMode" @click="changeMode = item.id">Изменить</div>
+                        <div class="button" v-if="item.id !== changeMode" @click="changeModeClick(item.id)">Изменить</div>
                         <div class="button" v-else @click="saveChangeNode(item)">Сохранить</div>
 
-                        <div class="button" @click="deleteNote(item)">Удалить</div>
+                        <div class="button" @click="deleteNote(item.id)">Удалить</div>
                     </div>
                 </div>
             </div>
@@ -42,28 +42,26 @@ const toggleBody = (noteId) => {
     } else {
         expandedNoteId.value = noteId;
     }
-    if(changeMode.value === 'new' && notes.length > 0)deleteNote(notes[notes.length-1])
     changeMode.value = null
     
 }
-const isExpanded = (noteId) => {
-    return expandedNoteId.value === noteId;
+
+const changeModeClick = (id) => {
+    changeMode.value = id
 }
 
-const saveChangeNode = (item) => {
-    NotesStore.setNote(item)
-    changeMode.value = null 
+const isExpanded = (id) => {
+    return expandedNoteId.value === id;
 }
-const deleteNote = (item) => {
-    NotesStore.deleteNote(item)
+
+const deleteNote = (id) => {
+    NotesStore.deleteNote(id)
 }
 
 const CreateNote = () => {
-    const currentTime = new Date().toISOString();
-    notes.push({"id": 'new', "created_at": currentTime})
-    changeMode.value = 'new' 
-    expandedNoteId.value = 'new';
-
+    const newNoteId = NotesStore.addNote()
+    expandedNoteId.value = newNoteId;
+    changeModeClick(newNoteId)
 }
 </script>
 

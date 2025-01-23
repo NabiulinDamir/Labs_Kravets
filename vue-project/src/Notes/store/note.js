@@ -16,25 +16,28 @@ export const useCurrentNoteStore = defineStore('CurrentNote', {
         return this.notes
     },
 
+    addNote(){
+      const Id = (this.notes.length > 0 ? Math.max(...this.notes.map(note => (typeof note.id === 'number' ? note.id : -Infinity))) : 0) + 1;
+      const currentTime = new Date().toISOString();
+      this.notes.push({"id": Id, "created_at" : currentTime})
+      return Id
+      
+    },
 
     setNote(item) {
-      if(item.id === 'new'){
-        const maxId = this.notes.length > 0 ? Math.max(...this.notes.map(note => (typeof note.id === 'number' ? note.id : -Infinity))) : 0;
-        item.id = maxId + 1; // Присваиваем новый id
-      }
       const index = this.notes.findIndex(note => note.id === item.id);
       if (index !== -1) {
-        this.notes[index] = item; // Обновляем объект по индексу
-        apiSetNote(item); // Сохраняем изменения через API
+        this.notes[index] = item;
+        apiSetNote(item); 
       }
     },
-    deleteNote(item) {
-      const index = this.notes.findIndex(note => note.id === item.id);
+    deleteNote(id) {
+      const index = this.notes.findIndex(note => note.id === id);
       if (index !== -1) {
         this.notes.splice(index, 1); // Удаляем элемент из массива
-        
       }
     }
+    
   },
   persist: true
 })

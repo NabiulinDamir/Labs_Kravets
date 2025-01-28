@@ -6,20 +6,29 @@ on:
       - main
 
 jobs:
-  run-selenium-tests:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18' 
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18' 
 
-      - name: Install dependencies
-        run: npm install
+    - name: Change directory to project folder
+      run: |
+        echo "Changing directory to project folder..."
+        cd vue-project 
 
-      - name: Run Selenium tests
-        run: npm run test:selenium
+    - name: Install dependencies
+      run: |
+        echo "Installing dependencies..."
+        cd vue-project 
+        ls -la
+        npm install
+
+    - name: Run Selenium tests
+      run: npm run test:selenium

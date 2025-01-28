@@ -1,0 +1,33 @@
+name: Generate Documentation
+
+on:
+  push:
+    tags:
+      - 'RELEASE*'  # Срабатывает на теги, начинающиеся с RELEASE
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18' 
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Build Documentation
+        run: |
+          npm run docs:build  # Убедитесь, что у вас есть соответствующая команда в package.json
+
+      - name: Upload Documentation
+        uses: actions/upload-artifact@v2
+        with:
+          name: docs
+          path: docs/.vuepress/dist  # Путь к сгенерированной документации

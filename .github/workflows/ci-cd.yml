@@ -19,24 +19,24 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '18'  # Укажите нужную версию Node.js
+        node-version: '18' 
 
     - name: Change directory to project folder
       run: |
         echo "Changing directory to project folder..."
-        cd vue-project # Укажите путь к папке вашего проекта
+        cd vue-project 
 
     - name: Install dependencies
       run: |
         echo "Installing dependencies..."
-        cd vue-project # Укажите путь к папке вашего проекта
+        cd vue-project 
         ls -la
         npm install
 
     - name: Run tests
       run: |
         echo "Running tests..."
-        cd vue-project # Укажите путь к папке вашего проекта
+        cd vue-project
         npx vitest
         echo "Tests completed."
 

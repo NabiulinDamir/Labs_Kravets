@@ -35,5 +35,7 @@ jobs:
 
       - name: Run Selenium Tests
         run: | 
-              cd vue-project
-              test:selenium  
+          echo "Running tests..."
+          cd vue-project
+          npx mocha
+          echo "Tests completed."

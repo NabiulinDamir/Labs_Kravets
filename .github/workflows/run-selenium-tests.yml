@@ -36,7 +36,7 @@ jobs:
         run: |
           echo "start proj"
           cd vue-project
-          npm run dev
+          npm run dev &
           echo "project is started"
 
       - name: Run Selenium Tests

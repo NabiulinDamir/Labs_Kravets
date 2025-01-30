@@ -1,12 +1,9 @@
 name: Run Selenium Tests
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-    paths:
-      - 'develop/**'  
-
 jobs:
   selenium-tests:
     runs-on: ubuntu-latest  

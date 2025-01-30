@@ -41,6 +41,7 @@ describe('Todoo Component Tests', function() {
 });
 
 
+
     // it('Возможность создать заметку', async function() {
     //     const createButton = await driver.findElement(By.xpath("//*[text()='Создать заметку']"));
     //     await createButton.click();

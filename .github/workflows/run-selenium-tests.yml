@@ -3,32 +3,33 @@ name: Run Selenium Tests
 on:
   push:
     branches:
-      - main
+      - main  # Запускать только для ветки master
+    paths:
+      - 'develop/**'  
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  selenium-tests:
+    runs-on: ubuntu-latest  
+
+    services:
+      chrome:
+        image: selenium/standalone-chrome:latest
+        ports:
+          - 4444:4444
+        options: >-
+          --shm-size=2g
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18' 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'  
 
-    - name: Change directory to project folder
-      run: |
-        echo "Changing directory to project folder..."
-        cd vue-project 
+      - name: Install dependencies
+        run: npm install  
 
-    - name: Install dependencies
-      run: |
-        echo "Installing dependencies..."
-        cd vue-project 
-        ls -la
-        npm install
-
-    - name: Run Selenium tests
-      run: npm run test:selenium
+      - name: Run Selenium Tests
+        run: test:selenium  

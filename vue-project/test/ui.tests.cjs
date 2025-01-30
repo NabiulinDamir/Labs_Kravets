@@ -2,17 +2,22 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 const assert = require('assert');
 const chrome = require('selenium-webdriver/chrome');
 const path = require('path');
+const os = require('os');
+const fs = require('fs');
 
 describe('Todoo Component Tests', function() {
     this.timeout(10000);
     let driver;
 
     before(async function() {
-        // Уникальная директория для пользовательских данных
+        // Создаем временную директорию для пользовательских данных
+        const tempDir = path.join(os.tmpdir(), 'temp_user_data_' + Date.now());
+        fs.mkdirSync(tempDir, { recursive: true });
+
         const chromeOptions = new chrome.Options()
             .addArguments('--no-sandbox')
             .addArguments('--disable-dev-shm-usage')
-            .addArguments(`--user-data-dir=${path.join(__dirname, 'temp_user_data')}`);
+            .addArguments(`--user-data-dir=${tempDir}`);
 
         driver = await new Builder()
             .forBrowser('chrome')
@@ -23,7 +28,9 @@ describe('Todoo Component Tests', function() {
     });
 
     after(async function() {
-        await driver.quit();
+        if (driver) {
+            await driver.quit();
+        }
     });
 
     it('Корректное отображение названия', async function() {
@@ -32,6 +39,7 @@ describe('Todoo Component Tests', function() {
         assert.strictEqual(titleText, 'Заметки');
     });
 });
+
 
     // it('Возможность создать заметку', async function() {
     //     const createButton = await driver.findElement(By.xpath("//*[text()='Создать заметку']"));

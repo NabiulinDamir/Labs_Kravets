@@ -26,7 +26,12 @@ jobs:
           node-version: '18'  
 
       - name: Install dependencies
-        run: npm install  
+        run: |
+          echo "Installing dependencies..."
+          cd vue-project 
+          ls -la
+          npm install
+
 
       - name: Run Selenium Tests
         run: | 

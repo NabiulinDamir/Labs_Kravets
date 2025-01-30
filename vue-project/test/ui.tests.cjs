@@ -1,12 +1,24 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const assert = require('assert');
+const chrome = require('selenium-webdriver/chrome');
+const path = require('path');
 
 describe('Todoo Component Tests', function() {
     this.timeout(10000);
     let driver;
 
     before(async function() {
-        driver = await new Builder().forBrowser('chrome').build();
+        // Уникальная директория для пользовательских данных
+        const chromeOptions = new chrome.Options()
+            .addArguments('--no-sandbox')
+            .addArguments('--disable-dev-shm-usage')
+            .addArguments(`--user-data-dir=${path.join(__dirname, 'temp_user_data')}`);
+
+        driver = await new Builder()
+            .forBrowser('chrome')
+            .setChromeOptions(chromeOptions)
+            .build();
+
         await driver.get('http://localhost:5173'); 
     });
 
@@ -19,6 +31,7 @@ describe('Todoo Component Tests', function() {
         const titleText = await titleElement.getText();
         assert.strictEqual(titleText, 'Заметки');
     });
+});
 
     // it('Возможность создать заметку', async function() {
     //     const createButton = await driver.findElement(By.xpath("//*[text()='Создать заметку']"));
@@ -50,4 +63,4 @@ describe('Todoo Component Tests', function() {
     //     const deletedNote = await driver.wait(until.elementsLocated(By.xpath("//*[text()='Тестовая заметка']")), 15000);
     //     assert.strictEqual(deletedNote.length, 0, 'Заметка должна быть удалена');
     // });
-});
+

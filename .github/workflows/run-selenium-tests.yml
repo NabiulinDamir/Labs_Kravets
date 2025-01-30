@@ -3,9 +3,9 @@ name: Run Selenium Tests
 on:
   push:
     branches:
-      - main  # Запускать только для ветки master
+      - main  # он же мастер
     paths:
-      - 'develop/**'  
+      - 'develop/**'  # ну там типа фичи
 
 jobs:
   selenium-tests:

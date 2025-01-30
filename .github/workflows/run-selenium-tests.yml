@@ -38,7 +38,7 @@ jobs:
           echo "start proj"
           cd vue-project
           npm run dev &
-          wait-on http://localhost:5173
+          npx wait-on http://localhost:5173
           echo "project is started"
 
       - name: Run Selenium Tests

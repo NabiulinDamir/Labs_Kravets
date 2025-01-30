@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { useCurrentNoteStore } from '@/Notes/store/note';//..f
+import { useCurrentNoteStore } from '@/Notes/store/note';//..f..
 import { ref } from 'vue';
 const NotesStore = useCurrentNoteStore()
 

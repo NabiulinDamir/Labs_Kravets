@@ -32,11 +32,16 @@ jobs:
           ls -la
           npm install
 
+      - name: Run project
+        run: |
+          echo "start proj"
+          cd vue-project
+          npm run dev
+          echo "project is started"
 
       - name: Run Selenium Tests
         run: | 
           echo "Running tests..."
           cd vue-project
-          npm run dev
           npx mocha
           echo "Tests completed."

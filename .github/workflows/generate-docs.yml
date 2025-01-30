@@ -19,5 +19,5 @@ jobs:
 
       - name: Run Doxygen
         run: |
-          & "C:\Program Files\doxygen\bin\doxygen.exe" "C:\Program Files\doxygen\bin\Doxyfile"
+          & "C:\Program Files\doxygen\bin\doxygen.exe" "Doxyfile"
   

@@ -1,12 +1,11 @@
 name: Run Selenium Tests
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-      - develop
     paths:
-      - 'develop/**'  # ну там типа фичи
+      - 'develop/**'  
 
 jobs:
   selenium-tests:

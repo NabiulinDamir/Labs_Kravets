@@ -31,12 +31,14 @@ jobs:
           cd vue-project 
           ls -la
           npm install
+          npm install wait-on --save-dev
 
       - name: Run project
         run: |
           echo "start proj"
           cd vue-project
           npm run dev &
+          wait-on http://localhost:5173
           echo "project is started"
 
       - name: Run Selenium Tests

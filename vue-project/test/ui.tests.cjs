@@ -4,20 +4,12 @@ const chrome = require('selenium-webdriver/chrome');
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
-const { exec } = require('child_process');
 
 describe('Todoo Component Tests', function() {
     this.timeout(10000);
     let driver;
 
     before(async function() {
-        // Завершение всех процессов Chrome
-        exec('pkill -f chrome', (err) => {
-            if (err) {
-                console.error('Error killing Chrome processes:', err);
-            }
-        });
-
         // Создаем временную директорию для пользовательских данных
         const tempDir = path.join(os.tmpdir(), 'temp_user_data_' + Date.now());
         fs.mkdirSync(tempDir, { recursive: true });
@@ -25,8 +17,7 @@ describe('Todoo Component Tests', function() {
         const chromeOptions = new chrome.Options()
             .addArguments('--no-sandbox')
             .addArguments('--disable-dev-shm-usage')
-            .addArguments(`--user-data-dir=${tempDir}`)
-            .addArguments('--remote-debugging-port=9222'); // Укажите любой доступный порт
+            .addArguments(`--user-data-dir=${tempDir}`);
 
         driver = await new Builder()
             .forBrowser('chrome')

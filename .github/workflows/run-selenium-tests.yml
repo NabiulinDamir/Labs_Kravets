@@ -37,5 +37,6 @@ jobs:
         run: | 
           echo "Running tests..."
           cd vue-project
+          npm run dev
           npx mocha
           echo "Tests completed."

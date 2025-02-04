@@ -34,6 +34,11 @@ jobs:
           ls -la
           npm run docs:build
 
+      - name: Check dist folder
+        run:  |
+          cd vue-project/vitepress/.vitepress/dist
+          ls -la
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

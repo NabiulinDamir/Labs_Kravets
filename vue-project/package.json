@@ -8,7 +8,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "test:unit": "vitest",
-    "test:selenium": "npx mocha"
+    "test:selenium": "npx mocha",
+    "docs:dev": "vitepress dev vitepress",
+    "docs:build": "vitepress build vitepress",
+    "docs:preview": "vitepress preview vitepress"
   },
   "dependencies": {
     "pinia": "^2.3.0",
@@ -27,6 +30,7 @@
     "sass-embedded": "^1.83.4",
     "vite": "^5.2.8",
     "vite-plugin-vue-devtools": "^7.0.25",
+    "vitepress": "^1.6.3",
     "vitest": "^3.0.3"
   }
 }

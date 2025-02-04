@@ -1,23 +1,38 @@
-name: Doxygen Documentation
+name: Deploy Documentation
 
 on:
   push:
-    tags:
-      - 'release*'
+    branches:
+      - main
 
 jobs:
-  doxygen:
-    runs-on: windows-latest  
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Setup Doxygen
-        run: |
-          choco install doxygen.install
 
-      - name: Run Doxygen
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18 
+
+      - name: Install dependencies
         run: |
-          & "C:\Program Files\doxygen\bin\doxygen.exe" "Doxyfile"
-  
+          echo "Installing dependencies..."
+          cd vue-project 
+          ls -la
+          npm install
+          npm install wait-on --save-dev
+
+      - name: Build documentation
+        run: npm run docs:build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/.vitepress/dist

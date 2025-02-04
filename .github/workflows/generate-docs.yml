@@ -31,6 +31,7 @@ jobs:
       - name: Build documentation
         run: 
           cd vue-project
+          ls -la
           npm run docs:build
 
       - name: Deploy to GitHub Pages

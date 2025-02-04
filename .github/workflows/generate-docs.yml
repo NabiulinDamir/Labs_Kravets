@@ -26,7 +26,6 @@ jobs:
           cd vue-project 
           ls -la
           npm install
-          npm install wait-on --save-dev
 
       - name: Build documentation
         run:  |

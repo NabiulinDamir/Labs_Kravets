@@ -3,7 +3,7 @@ name: Deploy Documentation
 on:
   push:
     tags:
-      - 'RELEASE**'
+      - 'RELEASE**' 
 
 jobs:
   build-and-deploy:

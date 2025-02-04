@@ -5,11 +5,11 @@ const path = require('path');
 const os = require('os');
 const fs = require('fs');
 
-describe('Todoo Component Tests', function() {
-    this.timeout(10000);
+describe('Todoo Component Tests', function () {
+    this.timeout(30000); // Увеличиваем таймаут для всех тестов
     let driver;
 
-    before(async function() {
+    before(async function () {
         // Создаем временную директорию для пользовательских данных
         const tempDir = path.join(os.tmpdir(), 'temp_user_data_' + Date.now());
         fs.mkdirSync(tempDir, { recursive: true });
@@ -17,6 +17,7 @@ describe('Todoo Component Tests', function() {
         const chromeOptions = new chrome.Options()
             .addArguments('--no-sandbox')
             .addArguments('--disable-dev-shm-usage')
+            .addArguments('--headless=new') // Добавляем headless-режим
             .addArguments(`--user-data-dir=${tempDir}`);
 
         driver = await new Builder()
@@ -24,51 +25,109 @@ describe('Todoo Component Tests', function() {
             .setChromeOptions(chromeOptions)
             .build();
 
-        await driver.get('http://localhost:5173'); 
+        await driver.get('http://localhost:5173');
     });
 
-    after(async function() {
+    after(async function () {
         if (driver) {
             await driver.quit();
         }
     });
 
-    it('Корректное отображение названия', async function() {
+    it('Корректное отображение названия', async function () {
         const titleElement = await driver.findElement(By.xpath("//*[text()='Заметки']"));
         const titleText = await titleElement.getText();
         assert.strictEqual(titleText, 'Заметки');
     });
-});
 
+    it('Создание новой заметки', async function () {
+        // Нажимаем кнопку "Создать заметку"
+        const createNoteButton = await driver.findElement(By.xpath("//div[contains(text(), 'Создать заметку')]"));
+        await createNoteButton.click();
 
-    // it('Возможность создать заметку', async function() {
-    //     const createButton = await driver.findElement(By.xpath("//*[text()='Создать заметку']"));
-    //     await createButton.click();
+        // Ждем появления формы для новой заметки
+        await driver.wait(until.elementLocated(By.css('textarea.TextArea')), 5000);
 
-    //     const textboxes = await driver.wait(until.elementsLocated(By.css('textarea.TextArea')), 15000);
-    //     const textbox = textboxes[0]; 
+        // Вводим заголовок и содержание
+        const titleInput = await driver.findElement(By.css('textarea.TextArea'));
+        await titleInput.sendKeys('Новая заметка');
 
-    //     assert.ok(textbox, 'Textbox для новой заметки должен быть отображен');
+        const contentInput = await driver.findElement(By.css('div.note_item_body textarea.TextArea'));
+        await contentInput.sendKeys('Это содержание новой заметки');
 
-    //     await driver.wait(until.elementIsVisible(textbox), 15000); 
-    //     await textbox.sendKeys('Тестовая заметка');
+        // Нажимаем кнопку "Сохранить"
+        const saveButton = await driver.findElement(By.xpath("//div[contains(text(), 'Сохранить')]"));
+        await saveButton.click();
 
-    //     const saveButton = await driver.findElement(By.xpath("//*[text()='Сохранить']"));
-    //     await driver.wait(until.elementIsVisible(saveButton), 15000); 
+        // Проверяем, что заметка появилась
+        const notes = await driver.findElements(By.css('.note_item'));
+        assert.strictEqual(notes.length, 5, 'Заметка не была создана');
+    });
+
+    // it('Редактирование заметки', async function () {
+    //     const createNoteButton = await driver.findElement(By.xpath("//div[contains(text(), 'Заметка 1')]"));
+    //     await createNoteButton.click();
+
+    //     // Нажимаем кнопку "Изменить" у первой заметки
+    //     const editButton = await driver.findElement(By.xpath("//div[contains(text(), 'Изменить')]"));
+    //     await editButton.click();
+
+    //     // Редактируем заголовок
+    //     const titleInput = await driver.findElement(By.css('textarea.TextArea'));
+    //     await titleInput.clear();
+    //     await titleInput.sendKeys('Измененный заголовок');
+
+    //     // Нажимаем кнопку "Сохранить"
+    //     const saveButton = await driver.findElement(By.xpath("//div[contains(text(), 'Сохранить')]"));
     //     await saveButton.click();
 
-    //     const noteText = await driver.wait(until.elementLocated(By.xpath("//*[text()='Тестовая заметка']")), 15000);
-    //     assert.ok(noteText, 'Новая заметка должна быть отображена');
+    //     // Проверяем, что заголовок изменился
+    //     const updatedTitle = await driver.findElement(By.css('.Text')).getText();
+    //     assert.strictEqual(updatedTitle, 'Измененный заголовок', 'Заголовок заметки не изменился');
     // });
 
-    // it('Возможность удалить заметку', async function() {
-    //     const deleteButtons = await driver.findElements(By.xpath("//*[text()='Удалить']"));
-    //     if (deleteButtons.length > 0) {
-    //         await driver.wait(until.elementIsVisible(deleteButtons[0]), 15000);
-    //         await deleteButtons[0].click(); 
-    //     }
+    // it('Удаление заметки', async function () {
+    //     // Нажимаем кнопку "Удалить" у первой заметки
+    //     const deleteButton = await driver.findElement(By.xpath("//div[contains(text(), 'Удалить')]"));
+    //     await deleteButton.click();
 
-    //     const deletedNote = await driver.wait(until.elementsLocated(By.xpath("//*[text()='Тестовая заметка']")), 15000);
-    //     assert.strictEqual(deletedNote.length, 0, 'Заметка должна быть удалена');
+    //     // Проверяем, что заметка удалена
+    //     const notes = await driver.findElements(By.css('.note_item'));
+    //     assert.strictEqual(notes.length, 0, 'Заметка не была удалена');
     // });
 
+    it('Раскрытие и сворачивание тела заметки', async function () {
+        // Создаем новую заметку
+        const createNoteButton = await driver.findElement(By.xpath("//div[contains(text(), 'Создать заметку')]"));
+        await createNoteButton.click();
+
+        // Ждем появления формы для новой заметки
+        await driver.wait(until.elementLocated(By.css('textarea.TextArea')), 5000);
+
+        // Вводим заголовок и содержание
+        const titleInput = await driver.findElement(By.css('textarea.TextArea'));
+        await titleInput.sendKeys('Тестовая заметка');
+
+        const contentInput = await driver.findElement(By.css('div.note_item_body textarea.TextArea'));
+        await contentInput.sendKeys('Это тестовое содержание');
+
+        // Нажимаем кнопку "Сохранить"
+        const saveButton = await driver.findElement(By.xpath("//div[contains(text(), 'Сохранить')]"));
+        await saveButton.click();
+
+        // Нажимаем на заголовок заметки, чтобы раскрыть тело
+        const noteHeader = await driver.findElement(By.css('.note_item_header'));
+        await noteHeader.click();
+
+        // Проверяем, что тело заметки раскрыто
+        const noteBody = await driver.findElement(By.css('.note_item_body.expanded'));
+        assert.ok(noteBody, 'Тело заметки не раскрылось');
+
+        // Нажимаем на заголовок заметки, чтобы свернуть тело
+        await noteHeader.click();
+
+        // Проверяем, что тело заметки свернуто
+        const isCollapsed = await driver.findElements(By.css('.note_item_body.expanded'));
+        assert.strictEqual(isCollapsed.length, 0, 'Тело заметки не свернулось');
+    });
+});

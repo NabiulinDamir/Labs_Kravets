@@ -6,7 +6,7 @@
 import Todoo from './components/Todoo.vue';
 </script>
 
-<style>
+<style> 
 @import './styles/global.scss';
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -3,5 +3,5 @@ projectKey=nabiulindamir
 serverUrl=https://sonarcloud.io
 serverVersion=8.0.0.59345
 dashboardUrl=https://sonarcloud.io/dashboard?id=nabiulindamir
-ceTaskId=AZTWcRiA0s-56Ihb2-06
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZTWcRiA0s-56Ihb2-06
+ceTaskId=AZTWi_fcRKNvSG43tjLr
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZTWi_fcRKNvSG43tjLr

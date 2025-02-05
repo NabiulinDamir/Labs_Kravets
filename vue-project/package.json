@@ -11,7 +11,8 @@
     "test:selenium": "npx mocha",
     "docs:dev": "vitepress dev vitepress",
     "docs:build": "vitepress build vitepress",
-    "docs:preview": "vitepress preview vitepress"
+    "docs:preview": "vitepress preview vitepress",
+    "test:coverage": "vue-cli-service test:unit --coverage"
   },
   "dependencies": {
     "pinia": "^2.3.0",

@@ -10,14 +10,14 @@ describe('Todoo Component Tests', function () {
     let driver;
 
     before(async function () {
-        // Создаем временную директорию для пользовательских данных
+        // Создаю временную директорию для пользовательских данных
         const tempDir = path.join(os.tmpdir(), 'temp_user_data_' + Date.now());
         fs.mkdirSync(tempDir, { recursive: true });
 
         const chromeOptions = new chrome.Options()
             .addArguments('--no-sandbox')
             .addArguments('--disable-dev-shm-usage')
-            .addArguments('--headless=new') // Добавляем headless-режим
+            .addArguments('--headless=new') 
             .addArguments(`--user-data-dir=${tempDir}`);
 
         driver = await new Builder()
@@ -41,25 +41,24 @@ describe('Todoo Component Tests', function () {
     });
 
     it('Создание новой заметки', async function () {
-        // Нажимаем кнопку "Создать заметку"
         const createNoteButton = await driver.findElement(By.xpath("//div[contains(text(), 'Создать заметку')]"));
         await createNoteButton.click();
 
-        // Ждем появления формы для новой заметки
+        // Жду появления формы для новой заметки
         await driver.wait(until.elementLocated(By.css('textarea.TextArea')), 5000);
 
-        // Вводим заголовок и содержание
+        // Ввожу заголовок и содержание
         const titleInput = await driver.findElement(By.css('textarea.TextArea'));
         await titleInput.sendKeys('Новая заметка');
 
         const contentInput = await driver.findElement(By.css('div.note_item_body textarea.TextArea'));
         await contentInput.sendKeys('Это содержание новой заметки');
 
-        // Нажимаем кнопку "Сохранить"
+        // Нажимаю кнопку "Сохранить"
         const saveButton = await driver.findElement(By.xpath("//div[contains(text(), 'Сохранить')]"));
         await saveButton.click();
 
-        // Проверяем, что заметка появилась
+        // Проверяю, что заметка появилась
         const notes = await driver.findElements(By.css('.note_item'));
         assert.strictEqual(notes.length, 5, 'Заметка не была создана');
     });

@@ -16,7 +16,7 @@ describe('Todoo Component Tests', function () {
 
         const chromeOptions = new chrome.Options()
             .addArguments('--no-sandbox')
-            .addArguments('--disable-dev-shm-usage')
+            .addArguments('--disable-dev-shm-usage') 
             .addArguments('--headless=new') 
             .addArguments(`--user-data-dir=${tempDir}`);
 

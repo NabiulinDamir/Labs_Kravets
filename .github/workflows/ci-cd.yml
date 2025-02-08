@@ -50,6 +50,7 @@ jobs:
     
     - name: Build project
       run: |
+        cd vue-project
         npm run build
 
 

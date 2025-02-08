@@ -38,6 +38,7 @@ jobs:
         echo "Running tests..."
         cd vue-project
         npx vitest
+
         echo "Tests completed."
 
     - name: Check test results
@@ -46,4 +47,10 @@ jobs:
           echo "Tests failed. Exiting..."
           exit 1
         fi
-        
+    
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GH_PAGES_TOKEN }}
+        publish_dir: vue-project/dist
+        force_orphan: true 

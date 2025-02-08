@@ -19,5 +19,5 @@ import Todoo from './components/Todoo.vue';
   align-items: center;
 
 }
-
+ 
 </style>

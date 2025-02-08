@@ -40,3 +40,4 @@ jobs:
           github_token: ${{ secrets.GH_PAGES_TOKEN }}
           publish_dir: vue-project/vitepress/.vitepress/dist
           force_orphan: true 
+          publish_branch: gh-pages-docs  

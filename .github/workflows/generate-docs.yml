@@ -27,17 +27,17 @@ jobs:
       - name: Build documentation
         run: |
           cd vue-project
-          npm run docs:build
+          npx jsdoc -c jsdoc.json
 
       - name: Check dist folder
         run: |
-          cd vue-project/vitepress/.vitepress/dist
+          cd vue-project/docs
           ls -la
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GH_PAGES_TOKEN }}
-          publish_dir: vue-project/vitepress/.vitepress/dist
+          publish_dir: vue-project/docs
           force_orphan: true 
           publish_branch: gh-pages-docs  

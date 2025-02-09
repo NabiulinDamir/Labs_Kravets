@@ -16,10 +16,10 @@ hero:
 
 features:
   - title: Feature A
-    details: Этот проект создавался для обучения базовым функциям Git
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   - title: Feature B
-    details: Этот проект хороший
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   - title: Feature C
-    details: Этот проект хороший
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
 

@@ -10,7 +10,7 @@ export default defineConfig({
     vue(),
     VueDevTools(),
   ],
-  base: "Labs_Kravets",
+  base: process.env.NODE_ENV === 'production' ? '/Labs_Kravets/' : '/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

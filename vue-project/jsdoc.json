@@ -1,5 +1,5 @@
 {
-    "base": ["/Labs_Kravets/"],
+    "base": ["/Labs_Kravets/docs/"],
     "source": {
       "include": ["./src"],  
       "exclude": ["node_modules"]

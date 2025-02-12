@@ -27,7 +27,7 @@ jobs:
       - name: Build documentation
         run: |
           cd vue-project
-          npx jsdoc -c jsdoc.json
+          npx jsdoc -c jsdoc.json --verbose
 
       - name: Check dist folder
         run: |

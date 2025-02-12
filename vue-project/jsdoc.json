@@ -1,18 +1,27 @@
-
 {
   "base": ["/Labs_Kravets/docs/"],
   "source": {
-    "include": ["./src"], 
-    "exclude": ["node_modules"]
+    "include": [
+      "src/Notes",
+      "src/components",
+      "README.md"
+    ],
+    "exclude": ["node_modules"],
+    "includePattern": "\\.(vue|js)$"
   },
   "opts": {
     "destination": "docs", 
-    "recurse": true,
-    "template": "templates/default" 
+    "recurse": true
   },
-  "plugins": [],
+  "plugins": [
+    "node_modules/jsdoc-vuejs"
+  ],
   "templates": {
     "cleverLinks": false,
     "monospaceLinks": false
+  },
+  "dependencies": {
+    "vue": "^3.5.13",
+    "@vue/compiler-sfc": "^3.5.13"
   }
 }

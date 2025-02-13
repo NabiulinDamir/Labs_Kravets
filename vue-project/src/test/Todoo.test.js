@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/vue";
 import { createPinia } from "pinia";
 import { setActivePinia } from "pinia";
-import Todoo from "./Todoo.vue"; // Убедитесь, что путь к компоненту правильный
+import Todoo from "../components/Todoo.vue"; // Убедитесь, что путь к компоненту правильный
 import { useCurrentNoteStore } from "@/Notes/store/note"; // Импортируйте ваше хранилище
 import "@testing-library/jest-dom";
 

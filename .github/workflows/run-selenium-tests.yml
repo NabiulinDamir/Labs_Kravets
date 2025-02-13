@@ -32,6 +32,7 @@ jobs:
           ls -la
           npm install
           npm install wait-on --save-dev
+          npm install @rollup/rollup-linux-x64-gnu
 
       - name: Run project
         run: |

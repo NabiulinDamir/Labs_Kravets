@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Todoo.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Todoo.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+    &lt;div class="container">
+        &lt;div class="name" @click="NotesStore.setNotes()">Заметки&lt;/div>
+        &lt;div class="note_container">
+            &lt;div class="note_item" v-for="item in notes" :key="item.id">
+                &lt;div class="note_item_header" @click="toggleBody(item.id)">
+                    &lt;div v-if="item.id !== changeMode" class="Text">{{ item.title }}&lt;/div>
+                    &lt;textarea v-if="item.id === changeMode" v-model="item.title" class="TextArea" @click.stop>&lt;/textarea>
+                    &lt;div>{{ item.created_at?.split('T')[0] }}&lt;/div>
+                &lt;/div>
+                &lt;div class="note_item_body" :class="{ 'expanded': isExpanded(item.id) }">
+                    &lt;div v-if="item.id !== changeMode" class="Text">{{ item.content }}&lt;/div>
+                    &lt;textarea v-else v-model="item.content" class="TextArea" >&lt;/textarea>
+                    &lt;div class="button_container">
+                        &lt;div class="button" v-if="item.id !== changeMode" @click="changeModeClick(item.id)">Изменить&lt;/div>
+                        &lt;div class="button" v-else @click="saveChangeNode(item)">Сохранить&lt;/div>
+
+                        &lt;div class="button" @click="deleteNote(item.id)">Удалить&lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+
+            &lt;div class="note_item_header" @click="CreateNote()">Создать заметку&lt;/div>
+        &lt;/div>
+        
+    &lt;/div>
+&lt;/template>
+
+  
+&lt;script>
+
+/**
+ * @Module Todoo component
+ * @description компонент vue для работы с заметками
+ * @vue-data {Object} notes - Список заметок из хранилища
+ * @vue-data {Number|null} changeMode - ID поля текста, которое меняется на TextArea (null, если не используется)
+ * @vue-data {Number|null} expandedNoteId - ID раскрытого поля заметок (null, если нет раскрытых заметок)
+ * 
+ * @vue-event {Number} changeModeClick - Присваивает changeMode выбранный ID
+ * @vue-event {Number} toggleBody - Присваивает expandedNoteId выбранный ID или сбрасывает его
+ * @vue-event {Number} isExpanded - Проверяет, является ли входящий ID равным expandedNoteId
+ * @vue-event {Number} deleteNote - Удаляет заметку по указанному ID
+ * @vue-event {} CreateNote - Создает новую заметку и раскрывает её
+ */
+
+
+import { useCurrentNoteStore } from '@/Notes/store/note'; 
+import { ref } from 'vue';
+
+export default {
+data() {
+    return {
+    notes: useCurrentNoteStore().getNotes(),
+    changeMode: null,
+    expandedNoteId: null 
+    };
+},
+methods: {
+    toggleBody(noteId) {
+    if (this.expandedNoteId === noteId) {
+        this.expandedNoteId = null;
+    } else {
+        this.expandedNoteId = noteId;
+    }
+    this.changeMode = null;
+    },
+
+    changeModeClick(id) {
+    this.changeMode = id;
+    },
+
+    isExpanded(id) {
+    return this.expandedNoteId === id;
+    },
+/**
+ * удаляет заметку
+ */
+    deleteNote(id) {
+    const NotesStore = useCurrentNoteStore();
+    NotesStore.deleteNote(id);
+    },
+/**
+ * Создаёт новую заметку
+ */
+    CreateNote() {
+    const NotesStore = useCurrentNoteStore();
+    const newNoteId = NotesStore.addNote();
+    this.expandedNoteId = newNoteId; // Раскрыть новую заметку
+    this.changeModeClick(newNoteId); // Установить режим изменения для новой заметки
+    }
+}
+};
+&lt;/script>
+  
+
+&lt;style lang="scss" scoped>
+.container{
+    width: 500px;
+    background-color: #5b5764;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 30px;
+    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.name{
+    padding: 10px;
+    font-size: 30px;
+    color: aliceblue;
+
+}
+.note{
+    &amp;_container{
+        width: 100%;
+        
+        display: flex;
+        flex-direction: column;
+    }
+    &amp;_item_header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        font-size: 20px;
+        background-color: #b6aeca;
+        transition: 200ms;
+        &amp;:hover{
+            background-color:  rgb(62, 69, 100);
+        }
+
+    }
+    &amp;_item_body{
+        padding-left: 10px;
+        padding-right: 10px;
+        height: 0px;
+        background-color: #b6aeca;
+        margin-bottom: 5px;
+        transition: 200ms;
+        visibility: hidden;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        &amp;.expanded {
+            height: 100px;
+            visibility: visible;
+        }
+    }
+
+
+}
+
+.button{
+    padding: 3px;
+    background-color: #5b5764;
+    margin-right: 10px;
+    user-select: none;
+    &amp;_container{
+        display: flex;
+        flex-direction: row;
+        margin-top: 10px;
+    }
+}
+.TextArea{
+    height: 100%;
+    max-width: 100%;
+
+}
+
+&lt;/style></code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Todoo%2520component.html">Todoo component</a></li><li><a href="module-useCurrentNoteStore.html">useCurrentNoteStore</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Fri Feb 14 2025 12:31:02 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

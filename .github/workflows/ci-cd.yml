@@ -60,5 +60,5 @@ jobs:
       with:
         github_token: ${{ secrets.GH_PAGES_TOKEN }}
         publish_dir: vue-project/dist
-        force_orphan: true 
+        destination_dir: preview
         publish_branch: gh-pages  
